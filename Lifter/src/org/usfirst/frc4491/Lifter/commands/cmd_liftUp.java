@@ -21,8 +21,9 @@ import org.usfirst.frc4491.Lifter.RobotMap;
  *
  */
 public class  cmd_liftUp extends Command {
-	long startTime;
-
+	
+	int LevelGoal;
+	
     public cmd_liftUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -35,27 +36,29 @@ public class  cmd_liftUp extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	startTime = System.currentTimeMillis();
-    	RobotMap.liftencoderLiftHeight.reset();
+    	LevelGoal = (int) Math.floor(Robot.lift.getLevel()) + 1;
+    	System.out.println("Level goal = " + LevelGoal);
     }
     
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.lift.SetMotorSpeed(1);
-    	SmartDashboard.putNumber("EncoderValue", RobotMap.liftencoderLiftHeight.get());
+
+    	System.out.println("execute::max height ? = " + Robot.lift.IsMaxHeight());
+    	System.out.println("execute::level = " + Robot.lift.getLevel());
+    	if (!Robot.lift.IsMaxHeight() &&
+    		Robot.lift.getLevel() < LevelGoal)
+    	{
+    		Robot.lift.SetMotorSpeed(1);    	
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	boolean returnValue = false;
-    	
-    	if (Math.abs(System.currentTimeMillis() - startTime) > 5000)
-    	{
-    		returnValue = true;
-    	}
-    	
-        return returnValue;
+    	System.out.println("isFinished::max height ? = " + Robot.lift.IsMaxHeight());
+    	System.out.println("isFinished::level = " + Robot.lift.getLevel());
+        return Robot.lift.IsMaxHeight() ||
+        	   Robot.lift.getLevel() >= LevelGoal;
     }
 
     // Called once after isFinished returns true

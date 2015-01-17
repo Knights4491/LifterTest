@@ -18,6 +18,8 @@ import org.usfirst.frc4491.Lifter.Robot;
  *
  */
 public class  cmd_liftDown extends Command {
+	
+	int LevelGoal;
 
     public cmd_liftDown() {
         // Use requires() here to declare subsystem dependencies
@@ -31,23 +33,34 @@ public class  cmd_liftDown extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	LevelGoal = (int)Math.ceil(Robot.lift.getLevel()) - 1;
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(!Robot.lift.IsMaxLow() &&
+    		Robot.lift.getLevel() > LevelGoal)
+    	{
+    		Robot.lift.SetMotorSpeed(-1);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.lift.IsMaxLow() || 
+        	   Robot.lift.getLevel() <= LevelGoal;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+		Robot.lift.SetMotorSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+		Robot.lift.SetMotorSpeed(0);
     }
 }
