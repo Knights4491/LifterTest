@@ -62,7 +62,7 @@ public class OI {
         joystick_driver = new Joystick(0);
         
         button_speed = new JoystickButton(joystick_driver, 1);
-        button_speed.whileHeld(new cmd_toggleSpeed());
+        button_speed.whenReleased(new cmd_toggleSpeed());
 
 	    
         // SmartDashboard Buttons

@@ -35,6 +35,7 @@ public class  cmd_driveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.SetTankDrive(Robot.oi.joystick_driver.getRawAxis(1), Robot.oi.joystick_driver.getRawAxis(5));
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -11,10 +11,11 @@
 
 package org.usfirst.frc4491.Lifter.subsystems;
 
+import org.usfirst.frc4491.Lifter.Robot;
 import org.usfirst.frc4491.Lifter.RobotMap;
 import org.usfirst.frc4491.Lifter.commands.*;
-import edu.wpi.first.wpilibj.*;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -43,6 +44,10 @@ public class DriveTrain extends Subsystem {
 	
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void SetTankDrive (double vitesseGauche, double vitesseDroite) {
+    	robotDrive.tankDrive(vitesseGauche, vitesseDroite);
     }
 }
 

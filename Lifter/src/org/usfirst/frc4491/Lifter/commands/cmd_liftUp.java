@@ -12,12 +12,16 @@
 package org.usfirst.frc4491.Lifter.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc4491.Lifter.Robot;
+import org.usfirst.frc4491.Lifter.RobotMap;
 
 /**
  *
  */
 public class  cmd_liftUp extends Command {
+	long startTime;
 
     public cmd_liftUp() {
         // Use requires() here to declare subsystem dependencies
@@ -31,23 +35,37 @@ public class  cmd_liftUp extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	startTime = System.currentTimeMillis();
+    	RobotMap.liftencoderLiftHeight.reset();
     }
+    
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.lift.SetMotorSpeed(1);
+    	SmartDashboard.putNumber("EncoderValue", RobotMap.liftencoderLiftHeight.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	boolean returnValue = false;
+    	
+    	if (Math.abs(System.currentTimeMillis() - startTime) > 5000)
+    	{
+    		returnValue = true;
+    	}
+    	
+        return returnValue;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.lift.SetMotorSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.lift.SetMotorSpeed(0);
     }
 }
