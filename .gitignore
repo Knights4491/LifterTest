@@ -1,2 +1,5 @@
 *~
 *.class
+Lifter/build/
+Lifter/dist/FRCUserProgram.jar
+Lifter/sysProps.xml
