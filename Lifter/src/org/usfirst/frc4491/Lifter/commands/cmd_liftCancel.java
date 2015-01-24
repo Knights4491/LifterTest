@@ -35,6 +35,9 @@ public class  cmd_liftCancel extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// This command has nothing todo be being executed once
+    	// because it requires the Robot.lift. It will cancels all
+    	// other commands which requires the Robot.lift.
     }
 
     // Make this return true when this Command no longer needs to run execute()
