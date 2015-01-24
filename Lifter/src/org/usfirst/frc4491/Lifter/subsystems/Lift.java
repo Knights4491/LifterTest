@@ -77,6 +77,20 @@ public class Lift extends Subsystem {
 		// 1 floor = "1000" encoder count
 		return encoderLiftHeight.get() / 1000;
 	}
+	
+	public void checkLevelP(double Proportion) {
+		
+		double vitesse = Proportion * (getLevel() - levelGoal);
+		
+		if (Math.abs(getLevel() - levelGoal) > 0.2)
+		{
+			SetMotorSpeed(vitesse);
+		}
+		else
+		{
+			SetMotorSpeed(0);
+		}
+	}
 
 
 }
