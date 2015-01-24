@@ -185,7 +185,7 @@ Children:
       Name: limitBottom
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: cmd_liftWithJoystick}
+        name: Default Command, type: Command, validators: null, value: cmd_KeepPosition}
     Base: Subsystem
     Name: Lift
   Properties: {}
@@ -279,6 +279,14 @@ Children:
         name: Button on SmartDashboard, validators: null, value: false}
     Base: Command
     Name: cmd_liftWithJoystick
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: Lift}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: false}
+    Base: Command
+    Name: cmd_KeepPosition
   Properties: {}
   Base: Commands
   Name: Commands
