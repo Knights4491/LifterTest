@@ -12,19 +12,14 @@
 package org.usfirst.frc4491.Lifter.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc4491.Lifter.Robot;
-import org.usfirst.frc4491.Lifter.RobotMap;
 
 /**
  *
  */
-public class  cmd_liftUp extends Command {
-	
-	int LevelGoal;
-	
-    public cmd_liftUp() {
+public class  cmd_liftCancel extends Command {
+
+    public cmd_liftCancel() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 
@@ -36,39 +31,23 @@ public class  cmd_liftUp extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	LevelGoal = (int) Math.floor(Robot.lift.getLevel()) + 1;
-    	System.out.println("Level goal = " + LevelGoal);
     }
-    
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-    	System.out.println("execute::max height ? = " + Robot.lift.IsMaxHeight());
-    	System.out.println("execute::level = " + Robot.lift.getLevel());
-    	if (!Robot.lift.IsMaxHeight() &&
-    		Robot.lift.getLevel() < LevelGoal)
-    	{
-    		Robot.lift.SetMotorSpeed(1);    	
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("isFinished::max height ? = " + Robot.lift.IsMaxHeight());
-    	System.out.println("isFinished::level = " + Robot.lift.getLevel());
-        return Robot.lift.IsMaxHeight() ||
-        	   Robot.lift.getLevel() >= LevelGoal;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.lift.SetMotorSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.lift.SetMotorSpeed(0);
     }
 }
