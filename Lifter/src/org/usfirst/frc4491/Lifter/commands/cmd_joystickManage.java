@@ -42,7 +42,7 @@ public class  cmd_joystickManage extends Command {
     	if (Robot.oi.getjoystick_driver().getRawAxis(2) > 0.1 ||
     		Robot.oi.getjoystick_driver().getRawAxis(3) > 0.1)
     	{
-    		Scheduler.getInstance().add(new cmd_liftCancel());
+    		//Scheduler.getInstance().add(new cmd_liftCancel());
     	}
     	
     }
