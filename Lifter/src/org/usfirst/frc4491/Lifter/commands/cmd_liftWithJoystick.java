@@ -44,12 +44,11 @@ public class  cmd_liftWithJoystick extends Command {
     	{
     		Robot.lift.setHeight(Robot.lift.getHeight() + 100);
     	}
-    	//System.out.println("cmd_liftWithJoystick::execute");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("cmd_liftWithJoystick::isFinished");
+    	// This is a default command which never ends. Always configure 
         return false;
     }
 

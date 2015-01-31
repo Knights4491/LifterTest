@@ -18,7 +18,13 @@ import org.usfirst.frc4491.Lifter.Robot;
  *
  */
 public class  cmd_liftGotoHeight extends Command {
+	private double m_dbHeightMM = 0;
 
+    public cmd_liftGotoHeight(double heightMM) {
+    	m_dbHeightMM = heightMM;
+        requires(Robot.lift);
+    }
+	
     public cmd_liftGotoHeight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -35,11 +41,15 @@ public class  cmd_liftGotoHeight extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if (Robot.lift.isSystemEnabled())
+    	{
+    		Robot.lift.setHeight(m_dbHeightMM);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
