@@ -52,6 +52,10 @@ public class  cmd_liftWithJoystick extends Command {
     	{
     		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
+    	else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
+    	{
+    		Robot.lift.enableLift();
+    	}
     	else
     	{
     		if (Robot.oi.getjoystick_driver().getRawButton(5) &&
