@@ -12,12 +12,16 @@
 package org.usfirst.frc4491.Lifter.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+
 import org.usfirst.frc4491.Lifter.Robot;
 
 /**
  *
  */
 public class  cmd_liftWithJoystick extends Command {
+	boolean m_bCommandPressed = false;
+	int m_nLastButtonPressed = -1;
 
     public cmd_liftWithJoystick() {
         // Use requires() here to declare subsystem dependencies
@@ -31,18 +35,61 @@ public class  cmd_liftWithJoystick extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("cmd_liftWithJoystick::initialize");
+    	System.out.println("cmd_liftWithJoystick::initialize - lift enabled=" + Robot.lift.isLiftEnabled() + ", lift at floor=" + Robot.lift.isLiftAtFloor());
+    	if (!Robot.lift.isLiftEnabled() && !Robot.lift.isLiftAtFloor())
+    	{
+    		Scheduler.getInstance().add(new cmd_liftGotoFloor());
+    	}
+    	else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
+    	{
+    		Robot.lift.enableLift();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.oi.getjoystick_driver().getRawAxis(2) > 0)
+    	if (!Robot.lift.isLiftEnabled() && !Robot.lift.isLiftAtFloor())
     	{
-    		Robot.lift.setHeight(Robot.lift.getHeight() - 100);
+    		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
-    	else if (Robot.oi.getjoystick_driver().getRawAxis(3) > 0)
+    	else
     	{
-    		Robot.lift.setHeight(Robot.lift.getHeight() + 100);
+    		if (Robot.oi.getjoystick_driver().getRawButton(5) &&
+    			(!m_bCommandPressed || m_nLastButtonPressed == 5))
+    		{
+    			m_bCommandPressed = true;
+    			m_nLastButtonPressed = 5;
+    					
+    			double dbSpeed = 100;
+    			
+    			if (Robot.oi.getjoystick_driver().getRawButton(6))
+    			{
+    				dbSpeed /= 8;
+    			}
+    			
+    			Robot.lift.setHeight(Robot.lift.getHeight() - dbSpeed);
+    		}
+    		else if (Robot.oi.getjoystick_driver().getRawButton(6) &&
+        			(!m_bCommandPressed || m_nLastButtonPressed == 6))
+    		{
+    			m_bCommandPressed = true;
+    			m_nLastButtonPressed = 6;
+    					
+    			double dbSpeed = 100;
+    			
+    			if (Robot.oi.getjoystick_driver().getRawButton(5))
+    			{
+    				dbSpeed /= 8;
+    			}
+    			
+    			Robot.lift.setHeight(Robot.lift.getHeight() + dbSpeed);
+    		}
+    		else if ( m_bCommandPressed)
+    		{
+    			m_bCommandPressed = false;
+    			m_nLastButtonPressed = -1;
+    			Robot.lift.setHeight(Robot.lift.getHeight());
+    		}
     	}
     }
 

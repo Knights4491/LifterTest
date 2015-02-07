@@ -20,10 +20,11 @@ import org.usfirst.frc4491.Lifter.Robot;
  *
  */
 public class  cmd_liftCalibrate extends Command {
-	int m_nbPulseToCalibrate = 0;
+	boolean m_bWasAtFloor = false;
+	double m_nPulseToCalibrate = 0;
 	
     public cmd_liftCalibrate(int nbPulseToCalibrate) {
-    	m_nbPulseToCalibrate = nbPulseToCalibrate;
+    	m_nPulseToCalibrate = nbPulseToCalibrate;
         requires(Robot.lift);
     }
 
@@ -39,43 +40,62 @@ public class  cmd_liftCalibrate extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	// Make sure that the lift starts from the bottom.
-    	// If the lift is enabled, it is necessarily at the bottom.
-    	if (Robot.lift.isSystemEnabled())
+    	System.out.println("liftCalibrate::Init");
+    	Robot.lift.disableLift();
+    	m_bWasAtFloor = Robot.lift.isLiftAtFloor();
+    	if (!m_bWasAtFloor)
     	{
-    		Robot.lift.disableSystem();
-    		Robot.lift.moveLiftToCeil();
+    		System.out.println("liftCalibrate::Init - GotoFloor");
+    		Robot.lift.gotoFloor();
+    	}
+    	else
+    	{
+    		System.out.println("liftCalibrate::Init - At floor already");
+    		Robot.lift.resetLift();
+    		Robot.lift.gotoCeil();
     	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	// Nothing to execute to calibrate.
+    	if (!m_bWasAtFloor)
+    	{
+    		System.out.println("liftCalibrate::Exec - Going to floor");
+    		
+    		if (Robot.lift.isLiftAtFloor())
+    		{
+    			System.out.println("liftCalibrate::Exec - at floor");
+    			Robot.lift.stopLift();
+    			Robot.lift.resetLift();
+    			Robot.lift.gotoCeil();
+    			m_bWasAtFloor = true;
+    		}
+    	}
+    	else if (Robot.lift.getEncoderCount() > m_nPulseToCalibrate)
+    	{
+    		System.out.println("liftCalibrate::Exec - at ceil");
+    		Robot.lift.stopLift();
+    		System.out.println("liftCalibrate::Exex - Current count=" + Robot.lift.getEncoderCount());
+    	}
+    	else
+    	{
+    		System.out.println("liftCalibrate::Exec - Going to ceil, current encoder count=" + Robot.lift.getEncoderCount());
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	// The calibration is done once the desired number
-    	// of pulse has been reached.
-        return Robot.lift.getCurrentNbPulse() >= m_nbPulseToCalibrate;
+    	return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	SmartDashboard.putNumber("Nb pulse to calibrate", Robot.lift.getCurrentNbPulse());
-    	System.out.println("Nb pulse to calibrate = " + Robot.lift.getCurrentNbPulse());
-    	// When the number of desired pulse is reached,
-    	// stop the motor, but does not reset the system yet.
-    	// We need to measure the height that was reached.
-    	// We keep the system disabled.
     	Robot.lift.stopLift();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	// Should not be interrupted.
-    	// We keep the system disabled.
     	Robot.lift.stopLift();
     }
 }

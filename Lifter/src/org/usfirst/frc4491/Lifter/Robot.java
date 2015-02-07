@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	// When we restart the lift, it must recalibrate to the floor.
-    	lift.resetSystem();
+    	lift.disableLift();
     }
 
     public void disabledPeriodic() {

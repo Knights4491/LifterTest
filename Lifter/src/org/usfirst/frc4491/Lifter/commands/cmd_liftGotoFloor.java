@@ -32,22 +32,19 @@ public class  cmd_liftGotoFloor extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("cmd_liftGotoFloor::initialize");
-    	// Make sure the lift starts disabled.
-    	Robot.lift.disableSystem();
+    	if (!Robot.lift.isLiftAtFloor())
+    	{
+    		Robot.lift.gotoFloor();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//System.out.println("cmd_liftGotoFloor::execute");
-    	if (!Robot.lift.isLiftAtFloor())
-    	{
-    		Robot.lift.moveLiftToFloor();
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("cmd_liftGotoFloor::isFinished");
+    	System.out.println("cmd_liftGotoFloor::isFinished - At floor =" + Robot.lift.isLiftAtFloor());
         return Robot.lift.isLiftAtFloor();
     }
 
@@ -55,15 +52,12 @@ public class  cmd_liftGotoFloor extends Command {
     protected void end() {
     	System.out.println("cmd_liftGotoFloor::end");
     	Robot.lift.stopLift();
-    	Robot.lift.enableSystem();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	System.out.println("cmd_liftGotoFloor::interrupted");
-    	// This command should both be interrupted.
-    	// Disable the lift in such case.
-    	Robot.lift.disableSystem();
+    	Robot.lift.stopLift();
     }
 }
