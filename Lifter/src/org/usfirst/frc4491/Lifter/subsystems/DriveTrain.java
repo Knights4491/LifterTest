@@ -11,7 +11,6 @@
 
 package org.usfirst.frc4491.Lifter.subsystems;
 
-import org.usfirst.frc4491.Lifter.Robot;
 import org.usfirst.frc4491.Lifter.RobotMap;
 import org.usfirst.frc4491.Lifter.commands.*;
 

@@ -12,8 +12,6 @@
 package org.usfirst.frc4491.Lifter.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc4491.Lifter.Robot;
 
 /**

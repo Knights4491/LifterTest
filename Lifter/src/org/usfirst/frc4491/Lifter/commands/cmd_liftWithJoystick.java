@@ -22,6 +22,7 @@ import org.usfirst.frc4491.Lifter.Robot;
 public class  cmd_liftWithJoystick extends Command {
 	boolean m_bCommandPressed = false;
 	int m_nLastButtonPressed = -1;
+	double m_dbLastCommand = 0;
 
     public cmd_liftWithJoystick() {
         // Use requires() here to declare subsystem dependencies
@@ -64,14 +65,16 @@ public class  cmd_liftWithJoystick extends Command {
     			m_bCommandPressed = true;
     			m_nLastButtonPressed = 5;
     					
-    			double dbSpeed = 100;
+    			double dbSpeed = 20;
     			
     			if (Robot.oi.getjoystick_driver().getRawButton(6))
     			{
-    				dbSpeed /= 8;
+    				dbSpeed /= 3;
     			}
     			
-    			Robot.lift.setHeight(Robot.lift.getHeight() - dbSpeed);
+    			m_dbLastCommand = Robot.lift.getHeight() - dbSpeed;
+    			
+    			Robot.lift.setHeight(m_dbLastCommand);
     		}
     		else if (Robot.oi.getjoystick_driver().getRawButton(6) &&
         			(!m_bCommandPressed || m_nLastButtonPressed == 6))
@@ -79,20 +82,24 @@ public class  cmd_liftWithJoystick extends Command {
     			m_bCommandPressed = true;
     			m_nLastButtonPressed = 6;
     					
-    			double dbSpeed = 100;
+    			double dbSpeed = 20;
     			
     			if (Robot.oi.getjoystick_driver().getRawButton(5))
     			{
-    				dbSpeed /= 8;
+    				dbSpeed /= 3;
     			}
     			
-    			Robot.lift.setHeight(Robot.lift.getHeight() + dbSpeed);
+    			m_dbLastCommand = Robot.lift.getHeight() + dbSpeed;
+    			
+    			Robot.lift.setHeight(m_dbLastCommand);
     		}
-    		else if ( m_bCommandPressed)
+    		else if (m_bCommandPressed)
     		{
     			m_bCommandPressed = false;
     			m_nLastButtonPressed = -1;
-    			Robot.lift.setHeight(Robot.lift.getHeight());
+
+    			Robot.lift.setHeight(m_dbLastCommand);
+    			m_dbLastCommand = 0;
     		}
     	}
     }
