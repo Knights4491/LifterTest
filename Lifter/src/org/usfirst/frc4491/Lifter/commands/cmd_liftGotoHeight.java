@@ -12,19 +12,29 @@
 package org.usfirst.frc4491.Lifter.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+
 import org.usfirst.frc4491.Lifter.Robot;
 
 /**
  *
  */
 public class  cmd_liftGotoHeight extends Command {
-	private double m_dbHeightMM = 0;
+	double m_dbHeightMM = 0;
+	boolean m_bWaitToReachHeight = false;
+
+    public cmd_liftGotoHeight(double heightMM, boolean bWaitToReachHeight) {
+    	m_dbHeightMM = heightMM;
+    	m_bWaitToReachHeight = bWaitToReachHeight;
+        requires(Robot.lift);
+    }
 
     public cmd_liftGotoHeight(double heightMM) {
     	m_dbHeightMM = heightMM;
+    	m_bWaitToReachHeight = false;
         requires(Robot.lift);
     }
-	
+    
     public cmd_liftGotoHeight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -37,6 +47,8 @@ public class  cmd_liftGotoHeight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+
+    	System.out.println("cmd_liftGotoHeight::initialize - lift enabled=" + Robot.lift.isLiftEnabled() + ", lift at floor=" + Robot.lift.isLiftAtFloor());
     	if (Robot.lift.isLiftEnabled())
     	{
     		Robot.lift.setHeight(m_dbHeightMM);
@@ -49,7 +61,9 @@ public class  cmd_liftGotoHeight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+    	System.out.println("cmd_liftGotoHeight::isFinished - m_bWaitToReachHeight=" + m_bWaitToReachHeight + ", current height=" + Robot.lift.getHeight());
+        return !m_bWaitToReachHeight || 
+        		(Robot.lift.isLiftEnabled() && (Math.abs(Robot.lift.getHeight() - m_dbHeightMM) < 10));
     }
 
     // Called once after isFinished returns true

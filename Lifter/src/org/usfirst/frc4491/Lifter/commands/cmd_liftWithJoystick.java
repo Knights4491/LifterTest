@@ -36,28 +36,42 @@ public class  cmd_liftWithJoystick extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("cmd_liftWithJoystick::initialize - lift enabled=" + Robot.lift.isLiftEnabled() + ", lift at floor=" + Robot.lift.isLiftAtFloor());
-    	if (!Robot.lift.isLiftEnabled() && !Robot.lift.isLiftAtFloor())
+    	System.out.println("cmd_liftWithJoystick::initialize - lift enabled=" + Robot.lift.isLiftEnabled() +
+														    ", lift at floor=" + Robot.lift.isLiftAtFloor() +
+														    ", lift enabling=" + Robot.lift.isLiftEnabling());
+    	if (!Robot.lift.isLiftEnabled() &&
+    		!Robot.lift.isLiftAtFloor() &&
+    		!Robot.lift.isLiftEnabling())
     	{
+    		System.out.println("Will goto floor.");
+    		Robot.lift.enablingLift();
     		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
+    	/*
     	else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
     	{
-    		Robot.lift.enableLift();
-    	}
+    		//Robot.lift.enableLift();
+    	}*/
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (!Robot.lift.isLiftEnabled() && !Robot.lift.isLiftAtFloor())
+    	System.out.println("cmd_liftWithJoystick::execute - lift enabled=" + Robot.lift.isLiftEnabled() +
+    												    ", lift at floor=" + Robot.lift.isLiftAtFloor() +
+													    ", lift enabling=" + Robot.lift.isLiftEnabling());
+    	if (!Robot.lift.isLiftEnabled() &&
+    		!Robot.lift.isLiftAtFloor() &&
+     		!Robot.lift.isLiftEnabling())
     	{
+    		System.out.println("Will goto floor.");
+    		Robot.lift.enablingLift();
     		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
-    	else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
+    	/*else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
     	{
-    		Robot.lift.enableLift();
-    	}
-    	else
+    		//Robot.lift.enableLift();
+    	}*/
+    	else if (Robot.lift.isLiftEnabled())
     	{
     		if (Robot.oi.getjoystick_driver().getRawButton(5) &&
     			(!m_bCommandPressed || m_nLastButtonPressed == 5))

@@ -66,8 +66,6 @@ public class OI {
         joystick_driver = new Joystick(0);
 	    
         // SmartDashboard Buttons
-        SmartDashboard.putData("cmd_autonomous", new cmd_autonomous());
-
         SmartDashboard.putData("cmd_liftGotoFloor", new cmd_liftGotoFloor());
 
 
