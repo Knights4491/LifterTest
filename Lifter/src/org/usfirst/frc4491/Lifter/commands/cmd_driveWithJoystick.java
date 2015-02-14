@@ -19,6 +19,8 @@ import org.usfirst.frc4491.Lifter.Robot;
  */
 public class  cmd_driveWithJoystick extends Command {
 
+	double m_dbDefaultRatio = 0.50;
+	
     public cmd_driveWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -35,8 +37,11 @@ public class  cmd_driveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.SetTankDrive(Robot.oi.joystick_driver.getRawAxis(1), Robot.oi.joystick_driver.getRawAxis(5));
+    	double dbSpeedRatio = Robot.oi.getjoystick_driver().getRawAxis(3) * (1 - m_dbDefaultRatio) + m_dbDefaultRatio;
+    	Robot.driveTrain.SetTankDrive(Robot.oi.joystick_driver.getRawAxis(1) * dbSpeedRatio,
+    								  Robot.oi.joystick_driver.getRawAxis(5) * dbSpeedRatio);
     }
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
