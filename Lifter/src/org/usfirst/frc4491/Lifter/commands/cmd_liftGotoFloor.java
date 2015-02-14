@@ -32,7 +32,9 @@ public class  cmd_liftGotoFloor extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("cmd_liftGotoFloor::initialize");
-    	if (Robot.lift.isLiftEnabling() && !Robot.lift.isLiftAtFloor())
+    	if (Robot.lift.isLiftEnabling() &&
+    		!Robot.lift.isLiftEnabled() &&
+    		!Robot.lift.isLiftAtFloor())
     	{
     		Robot.lift.gotoFloor();
     	}
@@ -51,9 +53,10 @@ public class  cmd_liftGotoFloor extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	System.out.println("cmd_liftGotoFloor::end");
-    	Robot.lift.stopLift();
-    	if (Robot.lift.isLiftEnabling())
+    	if (Robot.lift.isLiftEnabling() &&
+    		!Robot.lift.isLiftEnabled())
     	{
+    		Robot.lift.stopLift();
     		Robot.lift.enableLift();
     	}
     }

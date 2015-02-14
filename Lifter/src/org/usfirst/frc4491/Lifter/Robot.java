@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
         else
         {
         	// Mode tape rouge to travel over bumps.
-            autonomousCommand = new cmd_autonomous(7 * 1000, 0.50); 
+            autonomousCommand = new cmd_autonomous(6 * 1000, 0.50); 
         }
         
         lift.enablingLift();

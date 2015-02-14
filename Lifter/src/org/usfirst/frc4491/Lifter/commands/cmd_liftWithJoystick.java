@@ -47,11 +47,6 @@ public class  cmd_liftWithJoystick extends Command {
     		Robot.lift.enablingLift();
     		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
-    	/*
-    	else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
-    	{
-    		//Robot.lift.enableLift();
-    	}*/
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -67,10 +62,11 @@ public class  cmd_liftWithJoystick extends Command {
     		Robot.lift.enablingLift();
     		Scheduler.getInstance().add(new cmd_liftGotoFloor());
     	}
-    	/*else if (!Robot.lift.isLiftEnabled() && Robot.lift.isLiftAtFloor())
+    	else if (!Robot.lift.isLiftEnabled() &&
+    			 Robot.lift.isLiftAtFloor())
     	{
-    		//Robot.lift.enableLift();
-    	}*/
+    		Robot.lift.enableLift();
+    	}
     	else if (Robot.lift.isLiftEnabled())
     	{
     		if (Robot.oi.getjoystick_driver().getRawButton(5) &&

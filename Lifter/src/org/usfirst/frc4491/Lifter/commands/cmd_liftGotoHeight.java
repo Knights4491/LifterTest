@@ -53,6 +53,10 @@ public class  cmd_liftGotoHeight extends Command {
     	{
     		Robot.lift.setHeight(m_dbHeightMM);
     	}
+    	else
+    	{
+	    	System.out.println("The lift is disabled.");
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run

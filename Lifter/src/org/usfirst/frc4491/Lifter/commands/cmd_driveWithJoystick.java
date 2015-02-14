@@ -19,7 +19,8 @@ import org.usfirst.frc4491.Lifter.Robot;
  */
 public class  cmd_driveWithJoystick extends Command {
 
-	double m_dbDefaultRatio = 0.50;
+	double m_dbDefaultRatio = 0.60;
+	double m_dbMaxRatio = 0.90;
 	
     public cmd_driveWithJoystick() {
         // Use requires() here to declare subsystem dependencies
@@ -37,7 +38,8 @@ public class  cmd_driveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double dbSpeedRatio = Robot.oi.getjoystick_driver().getRawAxis(3) * (1 - m_dbDefaultRatio) + m_dbDefaultRatio;
+    	double dbSpeedRatio = Robot.oi.getjoystick_driver().getRawAxis(3) * (m_dbMaxRatio - m_dbDefaultRatio) + m_dbDefaultRatio;
+    	System.out.println("dpSeedRation = " + dbSpeedRatio);
     	Robot.driveTrain.SetTankDrive(Robot.oi.joystick_driver.getRawAxis(1) * dbSpeedRatio,
     								  Robot.oi.joystick_driver.getRawAxis(5) * dbSpeedRatio);
     }
