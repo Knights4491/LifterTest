@@ -19,7 +19,7 @@ import org.usfirst.frc4491.Lifter.Robot;
  */
 public class  cmd_driveWithJoystick extends Command {
 
-	double m_dbDefaultRatio = 0.70;
+	double m_dbDefaultRatio = 0.75;
 	double m_dbMaxRatio = 0.90;
 	
     public cmd_driveWithJoystick() {

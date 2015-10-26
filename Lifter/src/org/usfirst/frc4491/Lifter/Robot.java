@@ -72,12 +72,12 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         if (RobotMap.autoSwitch.get())
         {
-            autonomousCommand = new cmd_autonomous((long)(2.75 * 1000), 0.60);        	 
+            autonomousCommand = new cmd_autonomous((long)(2.60 * 1000), 0.63);        	 
         }
         else
         {
         	// Mode tape rouge to travel over bumps.
-            autonomousCommand = new cmd_autonomous((long)(6 * 1000), 0.50); 
+            autonomousCommand = new cmd_autonomous((long)(4.50 * 1000), 0.55); 
         }
         
         lift.enablingLift();
